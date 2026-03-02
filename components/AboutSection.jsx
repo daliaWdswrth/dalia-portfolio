@@ -18,7 +18,7 @@ export default function AboutSection({ scrollProgress, scrollToProjects }) {
               <div className="absolute inset-0 flex items-center justify-center">
                 <span className="text-xs tracking-widest opacity-90">
                     <img
-                        src="/images/profile.jpeg"   // put your image in the public folder
+                        src="/images/profile.jpeg"
                         alt="Dalia Wadsworth"
                         className="w-full h-full object-cover"
                     />
@@ -54,7 +54,8 @@ export default function AboutSection({ scrollProgress, scrollToProjects }) {
 
           <div className="flex flex-wrap justify-center md:justify-start gap-4 md:gap-6 pt-2 md:pt-4">
             <a 
-              href="https://github.com/daliaWdswrth" 
+              href="https://github.com/daliaWdswrth"
+              target="_blank" 
               className="group flex items-center gap-2 text-xs md:text-sm tracking-widest font-mono hover:opacity-60 transition-opacity"
             >
               GITHUB
@@ -62,6 +63,7 @@ export default function AboutSection({ scrollProgress, scrollToProjects }) {
             </a>
             <a 
               href="https://www.linkedin.com/in/daliawadsworth/" 
+              target="_blank"
               className="group flex items-center gap-2 text-xs md:text-sm tracking-widest font-mono hover:opacity-60 transition-opacity"
             >
               LINKEDIN

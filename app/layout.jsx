@@ -12,7 +12,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata = {
-  title: 'Your Name - Portfolio',
+  title: 'Dalia Wadsworth',
   description: 'Frontend Developer & Designer specializing in web design, frontend development, and graphic design.',
 };
 
