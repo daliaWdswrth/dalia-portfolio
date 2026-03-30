@@ -36,8 +36,8 @@ export default function ProjectsSection({ projects, currentProject, setCurrentPr
   }, [setCurrentProject]);
 
   return (
-    <section className="min-h-screen relative bg-black text-white">
-      {/* Projects Header - Improved mobile spacing */}
+    <section className="relative bg-black text-white">
+      {/* Projects Header */}
       <div className="sticky top-0 left-0 right-0 z-30 px-4 md:px-16 py-6 md:py-12 bg-black border-b border-white/10">
         <div className="flex items-end justify-between">
           <div>
@@ -67,7 +67,7 @@ export default function ProjectsSection({ projects, currentProject, setCurrentPr
       {/* Horizontal Scrolling Projects */}
       <div
         ref={projectsRef}
-        className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide"
+        className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide items-start"
         style={{ scrollbarWidth: 'none' }}
       >
         {projects.map((project, index) => (
@@ -78,6 +78,7 @@ export default function ProjectsSection({ projects, currentProject, setCurrentPr
             totalProjects={projects.length}
             scrollToProject={scrollToProject}
             projects={projects}
+            currentProject={currentProject}
           />
         ))}
       </div>

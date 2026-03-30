@@ -35,20 +35,19 @@ export default function AboutSection({ scrollProgress, scrollToProjects }) {
               Dalia<br/>Wadsworth
             </h1>
             <div className="flex items-center justify-center md:justify-start gap-3 md:gap-4 text-xs md:text-sm tracking-widest font-mono opacity-40">
-              <span>FRONTEND DEVELOPER</span>
+              <span>PRODUCT DESIGNER</span>
               <span className="w-1.5 md:w-2 h-1.5 md:h-2 bg-black rounded-full" />
-              <span>DESIGNER</span>
+              <span>DEVELOPER</span>
             </div>
           </div>
 
           <div className="space-y-3 md:space-y-4 text-base md:text-lg leading-relaxed max-w-xl mx-auto md:mx-0">
             <p>
-              I care about creating digital experiences that are not just functional, but meaningful and beautifully designed. 
-              Specializing in frontend development, web design, and graphic design.
+              I design digital experiences that are thoughtful, intentional, and functional. 
+              With degrees in computer science and fine arts from Tufts University, I work across the full arc of a project, from research and wireframes to a built, shipped product.
             </p>
             <p className="opacity-60">
-              Currently based in Santa Monica, recently graduated from Tufts University with degrees
-              in computer science and fine arts.
+              Currently based in Santa Monica.
             </p>
           </div>
 

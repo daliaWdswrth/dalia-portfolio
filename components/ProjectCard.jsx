@@ -1,8 +1,10 @@
 'use client';
 
-export default function ProjectCard({ project, index, totalProjects, scrollToProject, projects }) {
+export default function ProjectCard({ project, index, totalProjects, scrollToProject, projects, currentProject }) {
+  const isActive = index === currentProject;
+
   return (
-    <div className="min-w-full snap-start">
+    <div className="min-w-full snap-start flex flex-col">
       {/* Project Hero Section */}
       <div className="min-h-screen flex items-center justify-center px-4 md:px-16 relative pt-32 md:pt-0">
         <div className="max-w-6xl w-full flex flex-col md:grid md:grid-cols-2 gap-8 md:gap-16 items-center">
@@ -22,8 +24,6 @@ export default function ProjectCard({ project, index, totalProjects, scrollToPro
               )}
               <div className="absolute inset-0 bg-white/0 group-hover:bg-white/5 transition-colors" />
             </div>
-            {/* Decorative corner */}
-            {/* <div className="hidden md:block absolute -right-4 -bottom-4 w-24 h-24 border border-white/20" /> */}
           </div>
 
           {/* Project Info */}
@@ -38,13 +38,15 @@ export default function ProjectCard({ project, index, totalProjects, scrollToPro
               <p className="text-base md:text-lg leading-relaxed opacity-80">
                 {project.description}
               </p>
-              <a
-                href={project.link}
-                target="_blank"
-                className="inline-block mt-4 text-sm md:text-base font-medium text-pink-600 hover:text-blue-500 underline underline-offset-4 transition-colors"
+              {project.link && (
+                <a
+                  href={project.link}
+                  target="_blank"
+                  className="inline-block mt-4 text-sm md:text-base font-medium text-pink-600 hover:text-blue-500 underline underline-offset-4 transition-colors"
                 >
-                    {project.link}
-              </a>
+                  {project.link}
+                </a>
+              )}
             </div>
 
             <div className="pt-2 md:pt-4 flex flex-wrap gap-6 md:gap-8">
@@ -85,125 +87,206 @@ export default function ProjectCard({ project, index, totalProjects, scrollToPro
         )}
       </div>
 
-      {/* Project Details Section (Scrollable Below) */}
-      <div className="px-4 md:px-16 py-12 md:py-16 bg-black">
-        <div className="max-w-5xl mx-auto space-y-16 md:space-y-24">
-          {/* Full Description */}
-          <div className="flex flex-col md:grid md:grid-cols-3 gap-8 md:gap-16">
-            <div className="md:col-span-1">
-              <h4 className="text-sm uppercase tracking-widest opacity-40">Overview</h4>
-            </div>
-            <div className="md:col-span-2">
-              <p className="text-base md:text-lg leading-relaxed opacity-80">
-                {project.fullDescription}
-              </p>
-            </div>
-          </div>
+      {/* Project Details Section — only renders for the active card */}
+      {isActive && (
+        <div className="px-4 md:px-16 py-12 md:py-16 bg-black flex-1">
+          <div className="max-w-5xl mx-auto space-y-16 md:space-y-24">
 
-          {/* Additional Project Images */}
-          <div className="space-y-12 md:space-y-16">
-            {/* Main Detail Image */}
-            {project.images?.main ? (
-              <div className="aspect-[16/9] overflow-hidden">
-                <img 
-                  src={project.images.main} 
-                  alt={`${project.title} - Detail`}
-                  className="w-full h-full object-contain p-4"
-                />
+            {/* Full Description */}
+            <div className="flex flex-col md:grid md:grid-cols-3 gap-8 md:gap-16">
+              <div className="md:col-span-1">
+                <h4 className="text-sm uppercase tracking-widest opacity-40">Overview</h4>
               </div>
-            ) : (
-              <div className="aspect-[16/9] border-2 border-white/20 bg-white/5 flex items-center justify-center">
-                <div className="text-center">
-                  <div className="text-xs md:text-sm uppercase tracking-widest opacity-20 mb-2">Main Image</div>
-                  <div className="text-xs opacity-10">1920 × 1080</div>
-                </div>
+              <div className="md:col-span-2">
+                <p className="text-base md:text-lg leading-relaxed opacity-80">
+                  {project.fullDescription}
+                </p>
+              </div>
+            </div>
+
+            {/* Additional Project Images — only renders if images exist */}
+            {(project.images?.main || project.images?.detail1 || project.images?.detail2 || project.images?.detail3) && (
+              <div className="space-y-12 md:space-y-16">
+                {project.images?.main && (
+                  <div className="aspect-[16/9] overflow-hidden">
+                    <img
+                      src={project.images.main}
+                      alt={`${project.title} - Detail`}
+                      className="w-full h-full object-contain p-4"
+                    />
+                  </div>
+                )}
+                {project.images?.detail1 && (
+                  <div className="aspect-[4/3] border border-white/20 bg-white/5 overflow-hidden">
+                    <img
+                      src={project.images.detail1}
+                      alt={`${project.title} - Detail 2`}
+                      className="w-full h-full object-contain p-4"
+                    />
+                  </div>
+                )}
+                {(project.images?.detail2 || project.images?.detail3) && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                    {project.images?.detail2 && (
+                      <div className="aspect-square border border-white/20 bg-white/5 overflow-hidden">
+                        <img
+                          src={project.images.detail2}
+                          alt={`${project.title} - Detail 3`}
+                          className="w-full h-full object-contain p-4"
+                        />
+                      </div>
+                    )}
+                    {project.images?.detail3 && (
+                      <div className="aspect-square border border-white/20 bg-white/5 overflow-hidden">
+                        <img
+                          src={project.images.detail3}
+                          alt={`${project.title} - Detail 4`}
+                          className="w-full h-full object-contain p-4"
+                        />
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
             )}
-            
-            {/* Secondary Detail Image */}
-            {project.images?.detail1 ? (
-              <div className="aspect-[4/3] border border-white/20 bg-white/5 overflow-hidden">
-                <img 
-                  src={project.images.detail1} 
-                  alt={`${project.title} - Detail 2`}
-                  className="w-full h-full object-contain p-4"
-                />
-              </div>
-            ) : (
-              <div className="aspect-[4/3] border border-white/20 bg-white/5 flex items-center justify-center">
-                <div className="text-xs uppercase tracking-widest opacity-20">Image 2</div>
+
+            {/* Case Study Section — only renders if caseStudy data exists */}
+            {project.caseStudy && (
+              <div className="space-y-16 md:space-y-24 pt-16 md:pt-24 border-t border-white/20">
+
+                {project.caseStudy.problem && (
+                  <div className="flex flex-col md:grid md:grid-cols-3 gap-8 md:gap-16">
+                    <div><h4 className="text-sm uppercase tracking-widest opacity-40">The Problem</h4></div>
+                    <div className="md:col-span-2">
+                      <p className="text-base md:text-lg leading-relaxed opacity-80">{project.caseStudy.problem}</p>
+                    </div>
+                  </div>
+                )}
+
+                {project.caseStudy.opportunity && (
+                  <div className="flex flex-col md:grid md:grid-cols-3 gap-8 md:gap-16">
+                    <div><h4 className="text-sm uppercase tracking-widest opacity-40">The Opportunity</h4></div>
+                    <div className="md:col-span-2">
+                      <p className="text-base md:text-lg leading-relaxed opacity-80">{project.caseStudy.opportunity}</p>
+                    </div>
+                  </div>
+                )}
+
+                {project.caseStudy.whoItsFor && (
+                  <div className="flex flex-col md:grid md:grid-cols-3 gap-8 md:gap-16">
+                    <div><h4 className="text-sm uppercase tracking-widest opacity-40">Who It's For</h4></div>
+                    <div className="md:col-span-2">
+                      <p className="text-base md:text-lg leading-relaxed opacity-80">{project.caseStudy.whoItsFor}</p>
+                    </div>
+                  </div>
+                )}
+
+                {project.caseStudy.principles && (
+                  <div className="flex flex-col md:grid md:grid-cols-3 gap-8 md:gap-16">
+                    <div><h4 className="text-sm uppercase tracking-widest opacity-40">Design Principles</h4></div>
+                    <div className="md:col-span-2 space-y-8">
+                      {project.caseStudy.principles.map((p, i) => (
+                        <div key={i}>
+                          <h5 className="text-base font-bold mb-2">{p.title}</h5>
+                          <p className="text-base leading-relaxed opacity-80">{p.body}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {project.caseStudy.figmaImages?.length > 0 && (
+                  <div className="space-y-8">
+                    {project.caseStudy.figmaImages.map((img, i) => (
+                      <div key={i}>
+                        <img src={img.src} alt={img.caption} className="w-full object-contain" />
+                        {img.caption && (
+                          <p className="text-xs uppercase tracking-widest font-mono opacity-40 mt-3">{img.caption}</p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {project.caseStudy.decisions && (
+                  <div className="flex flex-col md:grid md:grid-cols-3 gap-8 md:gap-16">
+                    <div><h4 className="text-sm uppercase tracking-widest opacity-40">Key Decisions</h4></div>
+                    <div className="md:col-span-2 space-y-8">
+                      {project.caseStudy.decisions.map((d, i) => (
+                        <div key={i}>
+                          <h5 className="text-base font-bold mb-2">{d.title}</h5>
+                          <p className="text-base leading-relaxed opacity-80">{d.body}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {project.caseStudy.outcome && (
+                  <div className="flex flex-col md:grid md:grid-cols-3 gap-8 md:gap-16">
+                    <div><h4 className="text-sm uppercase tracking-widest opacity-40">Outcome</h4></div>
+                    <div className="md:col-span-2">
+                      <p className="text-base md:text-lg leading-relaxed opacity-80">{project.caseStudy.outcome}</p>
+                    </div>
+                  </div>
+                )}
+
+                {project.caseStudy.whatsnext && (
+                  <div className="flex flex-col md:grid md:grid-cols-3 gap-8 md:gap-16">
+                    <div><h4 className="text-sm uppercase tracking-widest opacity-40">What's Next</h4></div>
+                    <div className="md:col-span-2">
+                      <ul className="space-y-3">
+                        {project.caseStudy.whatsnext.map((item, i) => (
+                          <li key={i} className="text-base leading-relaxed opacity-80 flex gap-3">
+                            <span className="opacity-40 font-mono">—</span>
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                )}
+
               </div>
             )}
-            
-            {/* Two Column Images */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-              {/* Detail Image 2 */}
-              {project.images?.detail2 ? (
-                <div className="aspect-square border border-white/20 bg-white/5 overflow-hidden">
-                  <img 
-                    src={project.images.detail2} 
-                    alt={`${project.title} - Detail 3`}
-                    className="w-full h-full object-contain p-4"
-                  />
-                </div>
-              ) : (
-                <div className="aspect-square border border-white/20 bg-white/5 flex items-center justify-center">
-                  <div className="text-xs uppercase tracking-widest opacity-20">Image 3</div>
-                </div>
-              )}
-              
-              {/* Detail Image 3 */}
-              {project.images?.detail3 ? (
-                <div className="aspect-square border border-white/20 bg-white/5 overflow-hidden">
-                  <img 
-                    src={project.images.detail3} 
-                    alt={`${project.title} - Detail 4`}
-                    className="w-full h-full object-contain p-4"
-                  />
-                </div>
-              ) : (
-                <div className="aspect-square border border-white/20 bg-white/5 flex items-center justify-center">
-                  <div className="text-xs uppercase tracking-widest opacity-20">Image 4</div>
-                </div>
-              )}
-            </div>
-          </div>
 
-          {/* Project Details Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-16 py-12 md:py-16 border-t border-white/20">
-            <div>
-              <h5 className="text-sm uppercase tracking-widest font-mono opacity-40 mb-2 md:mb-3">Year</h5>
-              <p className="text-base">{project.year}</p>
+            {/* Project Details Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-16 py-12 md:py-16 border-t border-white/20">
+              <div>
+                <h5 className="text-sm uppercase tracking-widest font-mono opacity-40 mb-2 md:mb-3">Year</h5>
+                <p className="text-base">{project.year}</p>
+              </div>
+              <div>
+                <h5 className="text-sm uppercase tracking-widest font-mono opacity-40 mb-2 md:mb-3">Role</h5>
+                <p className="text-base">{project.role}</p>
+              </div>
+              <div>
+                <h5 className="text-sm uppercase tracking-widest font-mono opacity-40 mb-2 md:mb-3">Tools</h5>
+                <p className="text-base">{project.tools}</p>
+              </div>
             </div>
-            <div>
-              <h5 className="text-sm uppercase tracking-widest font-mono opacity-40 mb-2 md:mb-3">Role</h5>
-              <p className="text-base">{project.role}</p>
-            </div>
-            <div>
-              <h5 className="text-sm uppercase tracking-widest font-mono opacity-40 mb-2 md:mb-3">Tools</h5>
-              <p className="text-base">{project.tools}</p>
-            </div>
-          </div>
 
-          {/* Next Project Navigation */}
-          {index < totalProjects - 1 && (
-            <div className="pt-12 md:pt-16 border-t border-white/20">
-              <button
-                onClick={() => {
-                  scrollToProject(index + 1);
-                  window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
-                }}
-                className="group block w-full text-left"
-              >
-                <div className="text-xs md:text-sm uppercase tracking-widest font-mono opacity-40 mb-3 md:mb-4">Next Project</div>
-                <div className="text-2xl md:text-3xl font-bold tracking-tight group-hover:opacity-50 transition-opacity">
-                  {projects[index + 1].title} →
-                </div>
-              </button>
-            </div>
-          )}
+            {/* Next Project Navigation */}
+            {index < totalProjects - 1 && (
+              <div className="pt-12 md:pt-16 border-t border-white/20">
+                <button
+                  onClick={() => {
+                    scrollToProject(index + 1);
+                    window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
+                  }}
+                  className="group block w-full text-left"
+                >
+                  <div className="text-xs md:text-sm uppercase tracking-widest font-mono opacity-40 mb-3 md:mb-4">Next Project</div>
+                  <div className="text-2xl md:text-3xl font-bold tracking-tight group-hover:opacity-50 transition-opacity">
+                    {projects[index + 1].title} →
+                  </div>
+                </button>
+              </div>
+            )}
+
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
